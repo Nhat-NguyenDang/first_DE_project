@@ -1,19 +1,5 @@
 from googleapiclient.discovery import build
 import pandas as pd
-from IPython.display import JSON
-from dateutil import parser
-import isodate
-import seaborn as sns
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-
-# # NLP
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-nltk.download('stopwords')
-nltk.download('punkt')
-# from wordcloud import WordCloud
 
 from dotenv import load_dotenv
 import os
@@ -29,7 +15,6 @@ api_service_name = "youtube"
 api_version = "v3"
 # Get credentials and create an API client
 youtube = build(api_service_name, api_version, developerKey=api_key)
-
 
 def get_channel_stats(youtube, channel_ids):
     all_data = []
@@ -48,9 +33,9 @@ def get_channel_stats(youtube, channel_ids):
     
     return pd.DataFrame(all_data)
 
+def run_youtube_api():
+    channel_stats = get_channel_stats(youtube, channel_ids)
 
-channel_stats = get_channel_stats(youtube, channel_ids)
-
-channel_stats.to_csv("vtl_youtube_data.csv")
+    channel_stats.to_csv("s3://youtube-api-bucket/vtl_youtube_data.csv")
 
 
